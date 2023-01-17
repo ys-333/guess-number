@@ -2,7 +2,7 @@ import { View, Text, Pressable, StyleSheet } from 'react-native'
 
 const PrimaryButton = (props) => {
   const pressHandler = (e) => {
-    console.log(e.target, 'clicking press handler')
+    console.log(e.nativeEvent)
   }
   return (
     <View style={styles.buttonOuterContainer}>
