@@ -1,14 +1,32 @@
 import { useState } from 'react'
-import { TextInput, StyleSheet, View } from 'react-native'
+import { TextInput, StyleSheet, View, Alert } from 'react-native'
+import Colors from '../constants/colors'
 
 import PrimaryButton from '../components/PrimaryButton'
 
-const StartGameScreen = () => {
+const StartGameScreen = ({ setNumber }) => {
   const [input, setInput] = useState('')
   const inputHandler = (enteredNumber) => {
     setInput(enteredNumber)
-    console.log(enteredNumber)
   }
+
+  const restInputHandler = () => {
+    setInput('')
+  }
+
+  const confirmInputHandler = () => {
+    const enteredNumber = parseInt(input)
+
+    if (isNaN(enteredNumber) || enteredNumber <= 0 || enteredNumber > 99) {
+      Alert.alert('Invalid input', 'Number must be in between 0 and 100', [
+        { text: 'Okay', style: 'destructive', onPress: restInputHandler },
+      ])
+      return
+    }
+
+    setNumber(enteredNumber)
+  }
+
   return (
     <View style={styles.inputContainer}>
       <TextInput
@@ -22,10 +40,10 @@ const StartGameScreen = () => {
       />
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
-          <PrimaryButton>Reset</PrimaryButton>
+          <PrimaryButton onPress={restInputHandler}>Reset</PrimaryButton>
         </View>
         <View style={styles.buttonContainer}>
-          <PrimaryButton>Confirm</PrimaryButton>
+          <PrimaryButton onPress={confirmInputHandler}>Confirm</PrimaryButton>
         </View>
       </View>
     </View>
@@ -40,7 +58,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     padding: 16,
     marginTop: 100,
-    backgroundColor: '#4e0329',
+    backgroundColor: Colors.primary700,
     borderRadius: 8,
     elevation: 4,
     // ios color
@@ -54,9 +72,9 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     fontSize: 32,
-    borderBottomColor: '#ddb52f',
+    borderBottomColor: Colors.accent500,
     borderBottomWidth: 2,
-    color: '#ddb52f',
+    color: Colors.accent500,
     marginVertical: 8,
     fontWeight: 'bold',
     textAlign: 'center',
