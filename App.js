@@ -5,18 +5,40 @@ import { LinearGradient } from 'expo-linear-gradient'
 import GameScreen from './screens/GameScreen'
 import { useState } from 'react'
 import Colors from './constants/colors'
+import GameOverScreen from './screens/GameOverScreen'
+import { useFonts } from 'expo-font'
+import AppLoading from 'expo-app-loading'
 
 export default function App() {
   const [userNumber, setUserNumber] = useState(null)
+  const [isGameOver, setIsGameOver] = useState(true)
+
+  const [fontsLoaded] = useFonts({
+    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
+    'open-sans-regular': require('./assets/fonts/OpenSans-Regular.ttf'),
+  })
+
+  if (!fontsLoaded) {
+    return <AppLoading />
+  }
 
   function pickedNumberHandler(value) {
     setUserNumber(value)
+    setIsGameOver(false)
+  }
+
+  function gameOverHandler() {
+    setIsGameOver(true)
   }
 
   let screen = <StartGameScreen setNumber={pickedNumberHandler} />
 
   if (userNumber) {
-    screen = <GameScreen />
+    screen = <GameScreen userNumber={userNumber} onGameOver={gameOverHandler} />
+  }
+
+  if (userNumber && isGameOver) {
+    screen = <GameOverScreen />
   }
 
   return (
