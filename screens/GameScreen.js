@@ -22,11 +22,7 @@ let minBoundary = 1
 let maxBoundary = 100
 
 function GameScreen({ userNumber, onGameOver }) {
-  const initalGuess = generateRandomBetween(
-    minBoundary,
-    maxBoundary,
-    userNumber,
-  )
+  const initalGuess = generateRandomBetween(1, 100, userNumber)
 
   console.log(minBoundary, maxBoundary, initalGuess)
 
